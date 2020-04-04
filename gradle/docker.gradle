@@ -1,0 +1,29 @@
+jib {
+    from {
+        image = "adoptopenjdk:11-jre-openj9"
+    }
+    // to upload in amazon elastic container
+    to {
+        image = "aws_account_id.dkr.ecr.region.amazonaws.com/my-base-image:latest"
+        credHelper = "ecr-login"
+    }
+    /* to upload in local docker
+    to {
+        image = "camel-spring-boot-sample:latest"
+    }
+    */
+    container {
+        entrypoint = ["bash", "-c", "/entrypoint.sh"]
+        ports = ["8081"]
+        environment = [
+                SPRING_OUTPUT_ANSI_ENABLED: "ALWAYS",
+                WEB_APP_SLEEP: "0"
+        ]
+        creationTime = "USE_CURRENT_TIMESTAMP"
+    }
+    extraDirectories {
+        paths = file("src/main/jib")
+        permissions = ["/entrypoint.sh": "755"]
+    }
+}
+

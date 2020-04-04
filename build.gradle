@@ -1,0 +1,53 @@
+plugins {
+	id 'org.springframework.boot' version '2.2.6.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'java'
+	id "com.google.cloud.tools.jib" version "2.1.0"
+}
+
+group = 'com.zaravya'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility=1.8
+targetCompatibility=1.8
+
+assert System.properties["java.specification.version"] == "1.8" || "11" || "12" || "13"
+
+apply from: "gradle/docker.gradle"
+
+if (project.hasProperty("war")) {
+	apply from: "gradle/war.gradle"
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenLocal()
+	mavenCentral()
+	gradlePluginPortal()
+	maven { url "https://repo.spring.io/plugins-release" }
+}
+
+defaultTasks "bootRun"
+
+springBoot {
+	mainClassName = "com.zaravya.sample.SampleApplication"
+}
+
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.apache.camel.springboot:camel-spring-boot-starter:3.1.0'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+}
+
+test {
+	useJUnitPlatform()
+}

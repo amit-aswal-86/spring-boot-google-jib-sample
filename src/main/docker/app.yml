@@ -1,0 +1,7 @@
+version: '2'
+services:
+  samplewebapp-app:
+    image: sampleWebApp
+    environment:
+      - _JAVA_OPTIONS=-Xmx512m -Xms256m
+      - WEB_APP_SLEEP=30 # gives time for other services to boot before the application
