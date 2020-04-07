@@ -1,4 +1,4 @@
-package com.zaravya.sample;
+package com.zaravya.sample.dto;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
