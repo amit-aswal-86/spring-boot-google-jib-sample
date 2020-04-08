@@ -23,4 +23,10 @@ public class AppProperties {
 
     @Value("${redirect.route.id}")
     private String redirectRouteId;
+
+    @Value("redirect.rest.url")
+    private String restUrl;
+
+    @Value("redirect.soap.url")
+    private String soapUrl;
 }
